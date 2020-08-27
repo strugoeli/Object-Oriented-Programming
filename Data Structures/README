@@ -1,11 +1,3 @@
-strugo
-mira.finkelstein
-
-Eliyahu Strugo
-Mira Finkelstein
-
-
-
 =============================
 =      File description     =
 =============================
@@ -75,59 +67,11 @@ updateHeight. By adjusting the height of the tree, we will
 know whether we need to fix the tree to maintain the AVL
 feature.
 
-=============================
-=    Answers to questions   =
-=============================
-5.1
-1. Find a series of 12 numbers such that when they are
-inserted into an empty AVL tree one-by-one, the result will be
-a tree of height 4 (insertions only, no deletions).
-Answer: 8,5,10,3,6,9,11,2,4,7,12,1
 
-5.2
-1. What the asymptotic time complexity of the tree
-construction done in AvlTree(int[]data)?
-
-Answer: n - The running time of the iterator. log(n) - The running time of the adding operation. So the time
-complexity is n(log(n)).
-
-2. Bonus - What is the best possible running time complexity for a specific case?
-
-Answer: O(n) If the implementation of the AvlTree(int[]data) is with deep copy. We will copy each node
-separately,without using the add () method, so we will go through all the nodes once and do not make
-comparisons at all.
-
-5.3
-
-1. What is the asymptotic running time complexity of the tree construction done in
-AvlTree(AvlTree avlTree)?
-
-Answer: The running time of the adding operation is O(log(n))
-and there is Running on all nodes n times,So the time complexity is n(log(n)).
-
-2. What is the best possible running time complexity for a specific case?
-
-Answer: O(n)- in case that we run as the number of the tree's nodes. It happen when we copy in the same
- order as the original tree - we let the new root to be a copy of the old root and the left and right sons of
- the old root to be a copy of the left and right sons of the new tree accordingly and call the method
  recursively for the right and the left son. after doing this pattern n time and the input will be a new tree
  with the sam parameters of the old tree and as the old tree is an AVL tree there is not need to make
  re-balance after each copying. after n running the running time complexity would be O(n)
 
-
-5.4
-
-1. What is the asymptotic running time complexity of your implementation of the
-operation done in findMinNodes(int h)?
-
-Answer: O(1) - Since the height is calculated by a formula,
-it receives height and calculates the minimum number of vertices.
-
-
-2. Is that the best possible asymptotic running time complexity?
-If not, what is the best achievable complexity?
-
-Answer: Yes, that's the best method.
 
 
  
