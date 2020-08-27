@@ -1,0 +1,52 @@
+strugo
+305589269
+Eliyahu Strugo
+
+=============================
+=      File description     =
+=============================
+Competition.java - The Competition class represents a Nim competition between two players.
+                   this class contains the main of the program.
+
+Player.java      - The Player class represents a player in the Nim game, producing Moves as a response to
+                   a Board state.
+
+Move.java        - The Move class represents a move in the Nim game by a player.
+
+Board.java       - The Board class represents a board of the Nim game. The board can be of a variable size.
+
+
+=============================
+=          Design           =
+=============================
+I implemented the Competition class in modular way and divided the whole match between two players to three
+methods: a method that manges one turn, method that manages one round and method that uses these to methods to
+manage multiple rounds. since there are many messages to conditions to handle with this design makes the code
+more readable.
+
+
+=============================
+=  Implementation details   =
+=============================
+In the Competition class, in order to make the more simple to read I implemented the method
+handleHumanMessages which deals with most of the messages that has to be printed only if the player is human.
+In addition, added to the class the data member "currentPlayer" which makes it simpler to get access to the
+player on the move in each turn.
+In the Player class, in order to produce more efficient random move I implemented a method which calculates
+the probability to choose an unmarked stick from each row and returns the row with the highest probability.
+
+
+
+=============================
+=    Answers to questions   =
+=============================
+
+Smart Player:
+
+The smart player picks his moves by marking one stick from the row with the highest number of unmarked
+sticks if the number of the sticks is even and two otherwise. if the move is not valid so the smart player
+produces random move. in that way the smart player covers many winning configurations which the Random player
+does not,thus the smart player has a considerable advantage against the Random player in a long competition.
+for example - if the smart player faces with the board state : [1,2,0,0,0], the number of the unmarked sticks
+on the board is odd, so the smart player would bring the board to the state : [1,0,0,0,0] and to win, while
+the random player move could bring the board to the state: [1,1,0,0,0] and to lose.
