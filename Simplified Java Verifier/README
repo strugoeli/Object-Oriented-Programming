@@ -1,0 +1,227 @@
+maayanchetrit
+strugo
+
+
+=============================
+=      File description     =
+=============================
+
+Sjavc- The main class that response to run all the code and print 0- if the code pass all the check , 1- if
+ the code have a problem, and 2 if problem was found when we tried to read the given file path
+
+Scope-This class responsible to check scope and make sure that the scope is legal
+
+ifOrWhileScope-This class represent a scope of if or while loops
+
+ExpressionHandler - This class contains methods that handle expressions of code lines according to the
+s-Java format
+
+MethodScope-This class represent a method scope
+
+Compiler-The class compiler get a file and do the initial checks on the file make sure each line ends well ,
+   the brackets are balanced . initial globals variables and method, and create all the scope in the code.
+
+
+VarRapper- This class represents a parameter with the data: name, is Initialized, is final,
+           and the type. This allows us to create a list of variable objects, and get all the required data
+           for us
+
+Patterns-This is a singleTone class represent all the pattern we create to check the code
+
+Compiling Exception-This class is an abstract class that manages all the errors in the code.
+
+VariableException-  This class is abstract class that manges all the errors that related to variable. also,
+                    this class extend the CompilingException .
+
+
+VariableFinalException - Class that manage all the error related to final variable.
+                          Means, if the user will try to change a final variable.
+
+VariableInitializationException-This class represents the error that sent when the user attempts to use a
+                                non-initialized variable.
+
+VariableTypeException-  this class extend the VariableError, this type of error is sent when there is an
+                         incorrect assignment in the variable
+
+DeclareVariableException-An abstract class that represents an error when the user declares a variable twice
+
+ScopeException- This class represent exception that occurred inside Scope, or represent to one of the inner
+                scope
+
+FormatScopeException- This class represent error occurred when the user try to define new scope in bad
+                      format.
+
+IfWhileException- this type of errors occurred when the user try to define if or while scope in the main
+                  scope.
+
+MethodCallException-This type of errors occurred when a method is called from the main scope.
+
+MethodException-This type of errors occurred when the user try to define method inside method.
+
+ReturnException- This class represents one of the Scope errors. This exception is sent when the end of a
+                 method scoop is missing a return statement
+
+UnbalancedBracketsException- This class represents the error that sent when the brackets in the code are not
+                             balanced. means, the number of opening brackets, is not equal to the number of
+                             closing brackets in a specific scope or an entire file.
+
+
+ConditionException- This class represent an errors that occurred when the condition inside of if or while is
+                     illegal.
+
+
+NamesException- This class represents the error that sent when there is a problem with the name of a
+                variable or method
+
+ SyntaxException-This class represent a syntax errors in the code. when we use this kind of exception we
+                 need to send a specific message about the error.
+
+=============================
+=          Design           =
+=============================
+
+
+In our design we decided to divide the program into two packages - the main package and the package of
+exceptions.
+
+During the write of the program,we were dealing with a crucial conflict - handle the code lines that are
+relevant to entire code lines and handle the lines of code that are relevant only to internal scopes.
+
+In order to deal with this problem, we to decided to treat the lines that belongs to the main scope in
+different way - during the Initial reading of the code the defined methods code lines are being checked and
+the relevant information is collected into a HashMap data structure for further use (in this away is possible
+to find the methods parameter in O(1)), additionally during the Initial there is selection of the
+information - that is being collecting - the lines that represents global variables are collected differently
+and define the main scope, in that way it's simple to pass the information of the globals( after the main
+scope guarantees that they are valid), in hierarchy for further use. after the global information has been
+passed in the hierarchy we re-used this pattern - every scope it's responsible for checking it's variables in
+the way that it acts as a "main scope" for it's inner blocks and passing them the relevant information. after
+the information has passed every scope is independent entity that responsible for it's code lines.
+as each variable has (and could have more), plenty of characteristics we decided to use variables wrapper to
+represents a variable object in that way it simpler to utilise and determine either the
+use/declaration/assignment of variable is valid or not.
+further more, to determine either the lines format is valid we mainly used regex and Matcher objects. for this
+we decided to use the singleton design pattern and make it simple to access and use different format patterns
+from the Class Pattern - in that way,as there reuse of some of the patterns, we minimize the use of the
+compile method thus Improve the code efficiency.
+
+
+Thinking Process: First we thought about the large number of extreme cases and how to solve them, and then we
+ thought that it's better to divide the problems into "internal problems" and "external problems",
+ naturally the internal problems are represented by internal scopes and externals by the main scope.The
+ process we followed was internal construction - each block deals with the problems that
+ arose in it, and then we made sure that the information was transferred accordingly so that it would work.
+
+ The main doubt was whether the problems would be dealt with during the division into blocks or
+ alternatively, creation of the blocks and then the inference and inspection. We chose to examine the lines
+ during the construction and thus achieved savings in running time, as at any stage if the code does not
+ meet the conditions it stops and throw an exception and at the end of construction we know that all
+ information is valid and ready for future use. In contrast, the second method grants easier access to
+ information and makes the code more clear - at the end of construction all objects and data
+ structures are defined  and the logic of the code is clearer, but here we have the risk of receiving a large
+ mass of data and examine it even taught we could stop the running at the very begging.
+
+=============================
+=    Answers to questions   =
+=============================
+
+how are we handled s-Java code errors in this exercise, and why?
+
+In this exercise we chose to create a package of errors.
+
+The main error is complicatingError and it is abstract class. The different types of errors that exist in
+the code are:
+1. Variable Exception
+2. Scope Exception
+3. Syntax Exception
+4. condition Exception
+5. names Exception
+
+all of this classes extends the compilingException.
+some of the classes (like variable and scope exception ) are abstract class because there are many trpes of
+exception. explanation:
+
+Variable errors - contain errors in variable type, error if we try to chang a final variable, error if
+trying to use variable  that not initialized, or error if the user declared twice about the same parameter.
+
+Scope Exceptions: contain errors in unbalanced brackets, missing return statement, when the user try to
+define method in method , or when the user use loops (if,while) outside of the scope.
+
+
+This implantation give us the possible to upgrade the code in the feature, and take care of a few type of
+errors in one place - the abstract class.
+
+we also have Syntax exception. when we throw this type of exception, we have to explain what is the problem
+in the wrong line. because there is a lot of types of errors , and we though it's more cleaver to take care
+of all of this type of error in one place.
+
+we also have name errors - illegal name of method or variable.
+
+and, condition Exception- when there is an error in the condition
+
+to sum up, we chose to create an abstracts class of all the exception in the same type, to allowed change in
+ the feature.
+
+
+ ***********************************************************************************************
+ about design :
+ Explanation in design.
+
+ How would you modify your code to add new types of variables (e.g., float)?
+
+ in our code all we need to do is add a new option in the regex that check declaration line,and add pattern
+  of the new type.
+ more over, we need to add the possible in two method in Scope class
+ (ifTypeAdjustValueType, and ifTypeAdjustValue )
+ this method manage the relationship between each of the types. (e.g float can be double or int )
+
+so, as you can see, uor implementation to this code is very easy to changes.
+
+describe which modifications/extensions you would have to make in your code in order to support them. Please
+ briefly describe which classes you would add to your code,
+which methods you would add to existing classes, and which classes you would modify. You
+are not required to implement these features.
+– Classes.
+– Different methods’ types (i.e int foo()) .
+
+ ============== classes ==============
+
+ In order to support classes in our code, we define a new scope (like if/while/method) we can identify the
+ scope of a new class definition by a pattern created by regex.
+ In this scope we will define a list of methods and fields in addition to existing lists we use. And when we
+ run over some lines of scope ,  if the line starts with the name of the class that we
+ defined. We'll know that we're looking for a field or method in the class. we will check the string after
+ the dot and check if its on of the fields or method of the class (using existing method).
+
+ ================= Different methods’ types (i.e int foo()) . ==========================
+  in order to allowed Different methods’ types, first we had to add the option of the pattern that recognize
+   method to start with "void" or each one of the type. than we had to check at the end that the word after
+   return represent value or variable that adjust to the type we need to return.(using existing methods).
+   also, we need to add the option in the condition - make sure that in the condition there is only method
+   that return boolean. int or double.
+   and one little last thing - if we declare or change tha value of variable, wa had to check if the return
+   type adjust to the variable type.
+
+***********************************************************************************************************
+
+describe two of the main regular expressions you used in your code.
+
+methodName = "[\\w]+([0-9]|(_))*\\s*" :
+this pattern represent a legal method name. means if the matches of some value with this pattern will be
+true, that means that the given value is ok as a method name.
+this pattern is [\\w] - have to start with letter, can be one or more. than we use ([0-9]|(_))* means can be
+ numbers or underscore - zero or more, and if its ends withe spaces its ok.
+
+ typeBoolean = "(true|false)\\s*|\\s*-?[0-9]*(\\.[0-9]*)?|-?[0-9]+"
+ this pattern represent a boolean type.(true|false)\\s* can be true or false with space after. or,
+ \\s*-?[0-9]*(\\.[0-9]*)?  -start with spaces, may be minus , than numbers and after dot with more numbers -
+  represent double that can be boolean. or -?[0-9]+ -may be minus, have to be one number or more
+
+
+
+
+
+
+
+
+
