@@ -1,6 +1,3 @@
-strugo
-305589269
-Eliyahu Strugo
 
 =============================
 =      File description     =
@@ -135,7 +132,7 @@ package and modified them as package-private.
     exceptions regarding the error occurred. This exceptions has to classes that inherit from it - one for
     filters and one for order.
 
-    The second types of exceptions are exceptions that make the program fail. Threre are 2 exceptions that
+    The second types of exceptions are exceptions that make the program fail. There are 2 exceptions that
     inherits this class, and they are thrown when there is a problem that related to command file reading.
 
     The first exceptions are placed in the same package a with class they are related to (filter or order),
