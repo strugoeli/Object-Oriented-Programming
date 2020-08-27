@@ -1,0 +1,133 @@
+strugo
+mira.finkelstein
+
+Eliyahu Strugo
+Mira Finkelstein
+
+
+
+=============================
+=      File description     =
+=============================
+BST.java - Application of binary search tree.
+ With all the required attributes for binary trees, see below.
+
+TreeIterator.java - Sub-class of BST which implements an
+iterator that runs on all binary tree vertices in ascending
+order.
+
+Node.java - A sub-class representing the tree nodes.
+=============================
+=          Design           =
+=============================
+BST - We decided to apply a parent class of a binary search
+tree because all the AVL trees have the same attributes as
+binary search trees. So if anyone wants to apply a modified AVL tree he will be able to make a heir class
+search tree and will have less work.
+The important methods of this class are:
+
+Add () - Add a node.
+Boolean method that returns true if added. The method takes a
+node that we want to add, and calls contains().
+If the given node is not in the binary search tree,
+the method will check where to add it - 
+whether it is larger than the last node in the contains run,
+the method will add it to the right, if smaller -
+add it to the left.
+
+Delete  - Delete a node.
+A boolean method that accepts a node that you want to remove
+and calls contains (). If the node is in the binary search
+tree, then the method has three options:
+
+1. The node is a leaf. So we'll remove it and update the
+height and size.
+
+2. The node is a parent of one son - we will move the node
+parent pointer to the node son, and remove the node.
+
+3. The node has 2 sons. This is probably the most complicated
+method. Here we use the successor method, it is responsible
+for giving us the correct pointers, so that the tree will
+continue to be a binary tree and the balance will not be
+broken.
+
+updateHeightAdd - A method that updates the height of the
+tree after each relevant change.
+
+contains - A method that accepts a node and returns
+ if the given node is in the binary search tree or not.
+This method is also common for add() and delete()- 
+Because in both of these methods we need to know whether the
+node is in the tree or not.
+
+Successor methods - Methods that get a node, and find
+the next as a follow. Used as delete (), because as soon as we
+want to delete a node with 2 sons, we will need to find its
+next node by connecting all the remaining vertices to the
+correct places.
+
+The interaction of all these methods with AVL tree is direct.
+Each addition of node to an AVL tree is done exactly by adding
+to a binary search tree, so deleting and contains.
+The method that most likely affects the AVL trees is the tree
+updateHeight. By adjusting the height of the tree, we will
+know whether we need to fix the tree to maintain the AVL
+feature.
+
+=============================
+=    Answers to questions   =
+=============================
+5.1
+1. Find a series of 12 numbers such that when they are
+inserted into an empty AVL tree one-by-one, the result will be
+a tree of height 4 (insertions only, no deletions).
+Answer: 8,5,10,3,6,9,11,2,4,7,12,1
+
+5.2
+1. What the asymptotic time complexity of the tree
+construction done in AvlTree(int[]data)?
+
+Answer: n - The running time of the iterator. log(n) - The running time of the adding operation. So the time
+complexity is n(log(n)).
+
+2. Bonus - What is the best possible running time complexity for a specific case?
+
+Answer: O(n) If the implementation of the AvlTree(int[]data) is with deep copy. We will copy each node
+separately,without using the add () method, so we will go through all the nodes once and do not make
+comparisons at all.
+
+5.3
+
+1. What is the asymptotic running time complexity of the tree construction done in
+AvlTree(AvlTree avlTree)?
+
+Answer: The running time of the adding operation is O(log(n))
+and there is Running on all nodes n times,So the time complexity is n(log(n)).
+
+2. What is the best possible running time complexity for a specific case?
+
+Answer: O(n)- in case that we run as the number of the tree's nodes. It happen when we copy in the same
+ order as the original tree - we let the new root to be a copy of the old root and the left and right sons of
+ the old root to be a copy of the left and right sons of the new tree accordingly and call the method
+ recursively for the right and the left son. after doing this pattern n time and the input will be a new tree
+ with the sam parameters of the old tree and as the old tree is an AVL tree there is not need to make
+ re-balance after each copying. after n running the running time complexity would be O(n)
+
+
+5.4
+
+1. What is the asymptotic running time complexity of your implementation of the
+operation done in findMinNodes(int h)?
+
+Answer: O(1) - Since the height is calculated by a formula,
+it receives height and calculates the minimum number of vertices.
+
+
+2. Is that the best possible asymptotic running time complexity?
+If not, what is the best achievable complexity?
+
+Answer: Yes, that's the best method.
+
+
+ 
