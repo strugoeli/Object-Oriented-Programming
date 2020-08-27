@@ -1,0 +1,158 @@
+strugo
+305589269
+Eliyahu Strugo
+
+=============================
+=      File description     =
+=============================
+
+
+DirectoryProcessor.java-This class is the main class that manages the program which gets path to a folder  and
+                        path to commands that contain the order and the filter that determines the order of
+                        the files to be printed and in what order
+
+Section.java -This class represents a section that contains Filterable and Order objects
+
+Parser.java-This class parses a commands from a file and and by the commands it creates Section objects
+
+##Exceptions##
+
+Type1Exceptions.java- This class represents Type1 Exceptions
+
+Type2Exceptions.java-This class represents Type2 Exceptions
+
+ParametersException.java-This class represents Wrong number of parameters exception
+
+BadSubsectionOrderException.java- This class represents Bad sub-section of ORDER exception
+
+BadSubsectionFilterException.java- This class represents Bad sub-section of FILTER exception
+
+
+Filters:
+
+    Filter.java   - This abstract class represents filter of files by some parameters
+
+    AllFilters.java - This class represent the  "filter All" - which is the default filter and allows all
+     files to pass
+
+    SizeFilter - This class represent Filter that that uses size comparison
+
+
+    BetweenFilter.java - This class represent filter Size filter type which that requires that the given file
+                         is between certain range of sizes.
+
+    GreaterThanFilter.java - This class represent filter Size filter type which that requires that the given
+                            file's size is strictly greater than the given number of k-bytes
+
+    SmallerThanFilter.java - This class represent filter Size filter type which that requires that the given
+                             file's size is strictly smaller than the given number of k-bytes
+
+TypeFilter - This class determines the order of the files by there type
+
+    HiddenFilter - This class represent filter TypeFilter type which requires that the given file hidden or
+                   not depends on the given answer
+
+    WriteableFilter - This class represents filter TypeFilter type which requires that the given file writable
+                      or not depends on the given answer
+
+    ExecutableFilter.java - This class represent filter TypeFilter type which requires that the given file
+                            executable or not depends on the given answer
+
+PrefixFilter-This class implements  and requires and represents a filter by the prefix of the file name
+
+SuffixFilter- This class implements  and requires and represents a filter by the suffix of the file name
+
+
+ContainFilter.java      - This class represent filter which requires that the  name of the given file
+                          contains certain content
+FileNameFilter.java  - This class represent filter which requires that the name of the given file equals to
+                       certain content
+
+FilterFactory.java - This class represents a Filter Factory that creates Filterable Objects
+
+FilterException.java - This class represents Exception that relates to the Filterable types
+
+
+Orders:
+
+Order -This abstract class implements the interface Comparator and represents a certain order of the files
+
+    AbsOrder.java    - This class determines the order of two files by absolute name
+
+    SizeType.java     - This class determines the order of the files by there size
+
+    TypeOrder.java - This class determines the order of the files by there type
+
+    ReverseOrder.java  -  This class creates instance of an Order object and which acts the vice-versa of an
+                          given order
+
+OrderException.java- This class represents Exception that relates to the Order types
+
+=============================
+=          Design           =
+=============================
+In this exercise I put an emphasis on the project structure and design.
+The design guideline that I follow was to implement the task on this exercise using the design pattern we
+learn in the lectures: Factory, single-choice principle and open-closed principle, and Modularity.
+
+The manager class that runs all the components of the program is Directory processor.
+This class receives as arguments a directory with files we want to filter and a command file that tells us how
+to do it.
+
+To analyze the file I used a Parser class which is responsible for parsing the file and creating Section
+objects accordingly. In order to reader the given command file I used java's BufferedReader.
+That way I created a more efficient implementation by reading and analyzing 2 line each time and creating
+the relevant Section object by the text commands. Reading 2 line each time allows smaller
+memory usage, since we don't need to read the whole file and store it content. Also it allows to create a more
+readable code, and keep track of the line that we expect to appear in the file and throw Exception
+accordingly.
+
+I chose to represent a single section in the command file with an Section class, the contains a filter and
+order object, and creating by the instruction receives by Parser. The section object delegates the action to
+be performed on the files to the filter and order object and that way we implement Delegation design pattern.
+
+Another principle guided me was the Open-Closed principle.
+We want to keep our program open for extension and closed for modifications. In this exercise I followed this
+principle by using Factory design pattern. I created 2 factory classes: FilterFactory and OrderFactory.
+In case in the future we'de like to extend our code for additional filter or orders types, we only need to do
+it in the factories classes by adding a new switch case, and implement the class of the filter/order we want
+to implement, and this will only affect a small part of our code and reduce testing.
+
+Another design choice I had to make is the arrangement of the files.
+I chose to create a separate package for filter and order class and place the packages related to order and
+filter in the same package, and make the class modifiers package-private. This stands with encapsulation
+principle. Since filter/order exception classes only called filter/order classes I placed them in the same
+package and modified them as package-private.
+
+
+
+=============================
+=    Answers to questions   =
+=============================
+2.Exceptions:
+    The exceptions are divided into 2 types of exceptions.
+    Thr first types of exceptions are actually warning. They do not make the program fail, but only print an
+    exceptions regarding the error occurred. This exceptions has to classes that inherit from it - one for
+    filters and one for order.
+
+    The second types of exceptions are exceptions that make the program fail. Threre are 2 exceptions that
+    inherits this class, and they are thrown when there is a problem that related to command file reading.
+
+    The first exceptions are placed in the same package a with class they are related to (filter or order),
+    since these are the only classes that uses them, and  we want our program encapsulated.
+
+    The second types exceptions are located in the filesprocessing package since they are related to the
+    directory processor.
+
+
+3. Sorting -
+  In my implementation the sorting of the files is done with the method Array.sort(Comparator).
+  Therefor, each order type class implements the interface Comparator<File>, and since Order is an abstract class with
+  an abstract compare() method, each class that extends Order class has it's own logic of comparison, and it is obligated
+  to implement a compare() method.
+  At last, when the sorting of the files is done in section class we use java's Array.sort(Comparator),
+  such that Array is the array that contains the files in the directory, and the Comparator is the order
+  class we want to sort the array by.
+
+
+
