@@ -1,0 +1,177 @@
+strugo
+305589269
+
+=============================
+=      File description     =
+=============================
+OpenHashSet.java - This class represents an HashSet data structure which based on chaining method
+
+CloseHashSet.jav- This class represents an hash set data structure based on Quadratic Probing method
+
+SimpleHashSet- An abstract class that implements the class SimpleSet
+
+CollectionFacadeSet - Facade wrapper class for collections
+
+TreeSetWrapper- Wrapper class for TreeSet
+
+SimpleSetPerformanceAnalyzer - This class analyses the performance the data structure:
+OpenHashSet,ClosedHashSet,TreeSet(Java's),LinkedList(Java's) and HashSet(Java's)
+
+=============================
+=          Design           =
+=============================
+
+1. How I implemented OpenHashSet’s table:
+
+In the implementation of the OpenHashSet I used TreeSetWrapper - a class that contains method that use the
+field of TreeSet Java's data structure.
+each of the cell of the "bucket" is a TreeSetWrapper object and using the functionality of the TreeSet Java's
+data structure.(The alternative way is using LinkedListWrapper When this causes a significant deterioration
+to the running time).
+
+2.How you implemented the deletion mechanism in ClosedHashSet:
+
+The deletion mechanism works as following:
+1. The HashSet implemented by an Array of String
+2. The Array is initialized with Nulls in every cell
+3. String that is added to the array (instead null) using Quadratic Probing method
+4. Now if we wish to delete a data from one of the cells we change the string content to the flag : ""(Empty
+string)
+In the way our base case for stopping the search after a given string in the HashSet is HashSet[index]==null,
+in that way we avoid of unnecessary search because the only possibility that a data is not in the place it's
+supposed to be is that the case index collision has occurred.
+so if we wish to add a new data to the table we can add it to cell that contains either null or empty string.
+
+Dealing the case that the flag is added:
+because in my implementation I avoid of duplications if add the flag to the table it cannot be add again as
+long as the flag has not benn deleted. so I created a data member "flagIndex" that keeps the number of the
+index of the flag and it equals to -1 if it has not been added to the table.
+so if we add a new data to the table there is a check that we do not over rides the empty string that does not
+indicates a deleted place.
+
+
+=============================
+=  Implementation details   =
+=============================
+
+The number of iterations in my warm-up phase: 20000
+Based on trial and error
+
+Discussion of the results of the analysis in depth:
+
+* Account, in separate, for OpenHashSet’s and ClosedHashSet’s bad results for data1.txt:
+    OpenHashSet's bad results:
+
+    The file data1.txt contains a list of 99,999 different words with the same hash. thus,
+    The adding run time of the content of the file : data1.txt is significantly longer than the one of
+    data2.txt. the same hash of the data in data1.txt means that there is only a single 'bucket',so the time
+    complexity for executing contains is O(n) and same goes to add which uses contains.
+    where n is is the value that returned from size().
+
+    CloseHashSet's bad results:
+
+        The file data1.txt contains a list of 99,999 different words with the same hash. thus,
+        The adding run time of the content of the file : data1.txt is significantly longer than the one of
+        data2.txt. This is because after the first insertion, for each new word to be inserted, we'll execute
+        probing in proportion to the number of items were already added to the set, i.e. after k insertions we'll
+        probe k times to insert a new item. This gives us running time of O(n), where n is the number of items
+        already in the set.
+
+* Strength and weaknesses of data structures:
+
+    OpenHashSet:
+        The strength of this data structure is when we add big amount of strings with the same hash code.
+        This is because different strings can be added to the same cell in the set without limitation.
+
+
+    ClosedHashSet:
+        The weakness of this data structure is adding and searching data with the same hash code.
+        When adding it we'll need to probe several times until we find an empty place for the data, which can
+        prolong out running time.
+        Same for searching for an item, since probe in proportion to the number of times we probed
+        to place the item.
+
+
+    java HashSet:
+      This data structure is in most cases in any aspect is fastest.
+
+
+    java TreeSet:
+    This data structure's strength is in adding data efficiently.
+
+    When we want to be able to access items in constant time, we'll use hash sets.
+    When we want to be able to access an item by index, we'll use linked lists.
+    When we want to be able to store a big amount of data without knowing ahead it's size, we'll use tree
+    sets.
+
+
+* How did your two implementations compare between themselves?
+        We can see that open hash set has better results in most cases, especially when adding strings with the
+        same hash code.
+
+        On the other hand, closed hash set is better for retrieving string (but not significantly more).
+        This is because we have to perform extra iterations on all of the items that are stored in the cell of
+        open hash set, and this increases the running time. However, in closed hash set, the moment we reached a
+        cell, the access to the item itself is in Theta(1).
+
+
+* How did your implementations compare to Java’s built in HashSet?
+        Java's Hash Set results in all of the tests are better. Also, we can see that most of the results of open
+        hash set are close to the result of java's hash set.
+
+* What results surprised you and which did you expect?
+        The bad results of linked list are surprising.
+
+
+
+
+=================================================
+                  RESULTS
+=================================================
+
+
+#These values correspond to the time it takes (in ms) to insert data1 to all data structures
+OpenHashSet_AddData1 = 194
+ClosedHashSet_AddData1 = 352772
+TreeSet_AddData1 = 58
+LinkedList_AddData1 = 46916
+HashSet_AddData1 = 51
+
+#These values correspond to the time it takes (in ms) to insert data2 to all data structures
+OpenHashSet_AddData2 = 340
+ClosedHashSet_AddData2 = 21
+TreeSet_AddData2 = 65
+LinkedList_AddData2 = 36147
+HashSet_AddData2 = 10
+
+#These values correspond to the time it takes (in ns) to check if "hi" is contained in
+#the data structures initialized with data1
+OpenHashSet_Contains_hi1 = 64
+ClosedHashSet_Contains_hi1 = 63
+TreeSet_Contains_hi1 = 246
+LinkedList_Contains_hi1 = 700199
+HashSet_Contains_hi1 = 37
+
+#These values correspond to the time it takes (in ns) to check if "-13170890158" is contained in
+#the data structures initialized with data1
+OpenHashSet_Contains_negative = 242
+ClosedHashSet_Contains_negative = 3262324
+TreeSet_Contains_negative = 292
+LinkedList_Contains_negative = 821855
+HashSet_Contains_negative = 34
+
+#These values correspond to the time it takes (in ns) to check if "23" is contained in
+#the data structures initialized with data2
+OpenHashSet_Contains_23 = 28
+ClosedHashSet_Contains_23 = 37
+TreeSet_Contains_23 = 95
+LinkedList_Contains_23 = 108
+HashSet_Contains_23 = 44
+
+#These values correspond to the time it takes (in ns) to check if "hi" is contained in
+#the data structures initialized with data2
+OpenHashSet_Contains_hi2 = 36
+ClosedHashSet_Contains_hi2 = 59
+TreeSet_Contains_hi2 = 98
+LinkedList_Contains_hi2 = 1008676
+HashSet_Contains_hi2 = 22
