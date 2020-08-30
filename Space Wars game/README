@@ -1,0 +1,83 @@
+strugo
+305589269
+Eliyahu Strugo
+
+=============================
+=      File description     =
+=============================
+SpaceShipFactory.java - This class is responsible for the creation of the SpaceShip objects based on
+                         the user's inputs
+
+SpaceShip.java       - An abstract class which contains every method that is common for every SpaceShip object
+
+extends from SpaceShip:
+
+HumanShip.java      - This class represents a ship which controlled by the user.
+
+DrunkShip.java      - This class represents a ship which driven by dunk pilot.
+                      the ship is characterized by few drunk pattern that being chosen randomly.
+
+WarFreakType.java   - This class represents ships with tendency to attack others.
+
+PacifistType.java   - This class represents a ship tendency to run away from the fight
+
+
+extends from PacifistType:
+
+SpecialShip.java    - This class represents a ship with special ability - Electronic Warfare
+
+RunnerShip.java     - This class represents a ship which driven by an runner pilot
+
+
+extends from WarFreakType:
+
+AggressiveShip.java - This class represents a ship which driven by an aggressive pilot
+
+BasherShip.java     - This class represents a ship which driven by a pilot that tends to collide other ships.
+
+
+=============================
+=          Design           =
+=============================
+I implemented the program in way that the abstract class Spaceship delegates responsibility to the other
+classes that are involved in the process of creating the ships characters.
+in addition I created two more class WarFreakType and Pacifist this makes another layer which grants us better
+using of the code in the way we avoid repetition.
+the advantage which this design grants us with modularity and makes it simple to update the code and adding
+new type of ship characters.
+
+
+=============================
+=  Implementation details   =
+=============================
+I made the Spaceship class to be an abstract class.in the Spaceship class I mainly implemented the methods
+that are common for all ships characters, excluding the methods that are related to the special ship that are
+common only to the WarFreakType ships, however I decided to implement those method in the SpaceShip
+class in order to make it simpler to expand the special ship abilities to affect on the other ships in the
+future.
+In the WarFreakType and PacifistType I implemented methods that determines most of the ship of those type
+movements.
+I also implemented updates method for the most of the data members which again makes it simpler to change
+the rules of the game in terms of the costs of the action,getting hit and the effects on the data
+members after every round - by changing the constants.
+
+
+=============================
+=    Answers to questions   =
+=============================
+
+Drunk Ship:
+
+The drunk ship has five different patterns to pick his move from. When the drunk ship is created it picks
+randomly one of the five patterns by using Random object, and every time the ship's health level is reduced to
+one last point the random mechanism activates once more and starts picking random moves from the five
+patterns. in that way every time the is dead the pattern would be picked randomly again.
+
+Special Ship:
+
+I implemented the special ship to be a stealth aircraft when it faces against the war freak type of ships.
+the special ship strategy is to activate it's electronic warfare ability whenever it possible( when it has
+enough energy and the rounds restriction is off). in addition the ship always tries to avoid fighting, in that
+ way it lets the other ships to fight and it gives it an advantage to survive the fight.
+
+
